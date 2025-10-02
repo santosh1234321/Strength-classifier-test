@@ -18,13 +18,13 @@ joblib
 OS
 
 # How to Use
-Clone the repository
-Install the required dependencies
-Prepare your dataset or use the sample data provided
-Run the training script to build the Random Forest model
+Clone the repository.
+Install the required dependencies.
+Prepare your dataset or use the sample data provided.
+Run the training script to build the Random Forest model.
 Run the application and open the html page to start working.
 
 # Benefits and Applications
-A practical introduction to ensemble machine learning methods
-Useful for categorizing physical or abstract strength metrics into classes
-Can be extended and adapted for other classification problems
+A practical introduction to ensemble machine learning methods.
+Useful for categorizing physical or abstract strength metrics into classes.
+Can be extended and adapted for other classification problems.
