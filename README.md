@@ -23,5 +23,6 @@ The Strength Classifier App takes feature inputs related to strength metrics and
 - Can be extended and adapted for other classification problems.
 
 # Demo Video
-https://github.com/user-attachments/assets/e8252d16-1a40-4127-a205-3f8eb5a77897
+https://github.com/user-attachments/assets/979f7cd0-8336-4903-bb90-8b8a23025e2d
+
 
