@@ -1,4 +1,4 @@
-# Strength Classifier App
+# Strength Classifier Test
 This is a machine learning project that classifies strength categories based on input data using a Random Forest Classifier. The app demonstrates the implementation of an ensemble learning method to achieve reliable and accurate classification performance.
 
 # Project Overview
