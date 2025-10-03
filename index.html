@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Strength Classifier Test</title>
+    <!-- Load Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Define Inter font for clean look */
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
+        body {
+            font-family: 'Inter', sans-serif;
+            /* CHANGE: Dark gray background for the overall page to match logo aesthetic */
+            background-color: #1f2937; 
+        }
+        /* Custom styling for the result modal */
+        #resultModal {
+            transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out;
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col items-center justify-center p-4">
+
+    <!-- Header Section with Logo -->
+    <header class="mb-4 text-center">
+        <!-- Make sure sctlogo.jpg is in the same directory as this file -->
+        <img src="sctlogo.jpg" alt="SCT Logo" height="150px" width="150px">
+    </header>
+
+    <!-- Main Application Card, matching the white background sketch -->
+    <!-- Increased shadow for better contrast against the dark background -->
+    <div class="w-full max-w-md bg-white shadow-2xl rounded-xl p-8 border border-gray-100">
+
+        <!-- Title and Description (text-gray-900) -->
+        <h1 class="text-3xl font-bold text-gray-900 mb-2 text-center">Strength Classifier Test</h1>
+        <p class="text-gray-700 mb-8 text-center text-sm">
+            Enter your max reps and weights (in KGs) to get your strength classification result.
+        </p>
+
+        <!-- Input Form -->
+        <form id="strengthForm" class="space-y-6">
+
+            <!-- Bench Press Input -->
+            <div class="flex items-center justify-between">
+                <label for="bench" class="text-lg font-medium text-gray-900 w-1/2">Bench press (Kgs)</label>
+                <div class="flex items-center w-1/2">
+                    <input type="number" id="bench" name="bench" required min="0"
+                        class="w-full p-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-black shadow-sm">
+                </div>
+            </div>
+
+            <!-- Squat Input -->
+            <div class="flex items-center justify-between">
+                <label for="squat" class="text-lg font-medium text-gray-900 w-1/2">Squat (Kgs)</label>
+                <div class="flex items-center w-1/2">
+                    <input type="number" id="squat" name="squat" required min="0"
+                        class="w-full p-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-black shadow-sm">
+                </div>
+            </div>
+
+            <!-- Deadlift Input -->
+            <div class="flex items-center justify-between">
+                <label for="deadlift" class="text-lg font-medium text-gray-900 w-1/2">Deadlift (Kgs)</label>
+                <div class="flex items-center w-1/2">
+                    <input type="number" id="deadlift" name="deadlift" required min="0"
+                        class="w-full p-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-black shadow-sm">
+                </div>
+            </div>
+
+            <!-- Pull Ups Input -->
+            <div class="flex items-center justify-between">
+                <label for="pullups" class="text-lg font-medium text-gray-900 w-1/2">Pull ups (Reps)</label>
+                <div class="flex items-center w-1/2">
+                    <input type="number" id="pullups" name="pullups" required min="0"
+                        class="w-full p-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-black shadow-sm">
+                </div>
+            </div>
+
+            <!-- Push Ups Input -->
+            <div class="flex items-center justify-between">
+                <label for="pushups" class="text-lg font-medium text-gray-900 w-1/2">Push ups (Reps)</label>
+                <div class="flex items-center w-1/2">
+                    <input type="number" id="pushups" name="pushups" required min="0"
+                        class="w-full p-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-black shadow-sm">
+                </div>
+            </div>
+
+            <!-- Gender Input (Radio Buttons) -->
+            <div class="flex items-center justify-between pt-2">
+                <label class="text-lg font-medium text-gray-900 w-1/2">Gender</label>
+                <div class="flex space-x-6 w-1/2">
+                    <div class="flex items-center">
+                        <input id="genderMale" type="radio" name="gender" value="0" required checked
+                            class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500">
+                        <label for="genderMale" class="ml-2 text-md text-gray-900">Male</label>
+                    </div>
+                    <div class="flex items-center">
+                        <input id="genderFemale" type="radio" name="gender" value="1" required
+                            class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500">
+                        <label for="genderFemale" class="ml-2 text-md text-gray-900">Female</label>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Submit Button (Blue with White Font) -->
+            <button type="submit" id="submitBtn"
+                class="w-full flex justify-center items-center py-3 mt-8 text-xl font-semibold text-white bg-blue-600 rounded-xl hover:bg-blue-700 focus:outline-none focus:ring-4 focus:ring-blue-300 transition duration-150 ease-in-out shadow-lg shadow-blue-500/50">
+                <span id="buttonText">GO!</span>
+                <svg id="spinner" class="animate-spin -ml-1 mr-3 h-5 w-5 text-white hidden" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                </svg>
+            </button>
+        </form>
+    </div>
+
+    <!-- Result Modal (Hidden by default) -->
+    <div id="resultModal" class="fixed inset-0 bg-gray-600 bg-opacity-75 flex items-center justify-center invisible opacity-0 z-50">
+        <div class="bg-white p-6 rounded-xl shadow-2xl w-full max-w-sm m-4 transform transition-all sm:my-8 sm:align-middle">
+            <h3 id="modalTitle" class="text-xl font-bold mb-4 text-blue-600">Result</h3>
+            <p id="modalMessage" class="text-gray-700 mb-6 text-lg"></p>
+            <button id="closeModalBtn" class="w-full py-2 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 transition duration-150">
+                Close
+            </button>
+        </div>
+    </div>
+
+    <script>
+        // Set the Flask API endpoint URL
+        const API_URL = 'http://127.0.0.1:5000/predict';
+        
+        // Get references to DOM elements
+        const form = document.getElementById('strengthForm');
+        const modal = document.getElementById('resultModal');
+        const modalTitle = document.getElementById('modalTitle');
+        const modalMessage = document.getElementById('modalMessage');
+        const closeModalBtn = document.getElementById('closeModalBtn');
+        const submitBtn = document.getElementById('submitBtn');
+        const spinner = document.getElementById('spinner');
+        const buttonText = document.getElementById('buttonText');
+
+        // Define which fields are required numerical inputs for easy validation
+        const requiredNumericFields = ['bench', 'squat', 'deadlift', 'pullups', 'pushups'];
+
+        /**
+         * Shows the custom modal with a title and message.
+         * @param {string} title - The title of the modal (e.g., 'Success', 'Error').
+         * @param {string} message - The message content.
+         * @param {string} color - Tailwind color class for the title.
+         */
+        function showModal(title, message, color = 'text-blue-600') {
+            modalTitle.textContent = title;
+            // Reset color class
+            modalTitle.className = modalTitle.className.split(' ').filter(c => !c.startsWith('text-')).join(' ');
+            modalTitle.classList.add('text-xl', 'font-bold', 'mb-4', color);
+            modalMessage.textContent = message;
+            modal.classList.remove('invisible', 'opacity-0');
+            modal.classList.add('visible', 'opacity-100');
+        }
+
+        /**
+         * Hides the custom modal.
+         */
+        function hideModal() {
+            modal.classList.remove('visible', 'opacity-100');
+            modal.classList.add('invisible', 'opacity-0');
+        }
+
+        // Attach event listener to the form submission
+        form.addEventListener('submit', async (event) => {
+            event.preventDefault(); // Prevent default form submission
+
+            // Disable button and show spinner
+            submitBtn.disabled = true;
+            buttonText.textContent = 'Analyzing...';
+            spinner.classList.remove('hidden');
+
+            try {
+                // Collect form data
+                const formData = new FormData(form);
+                const data = {
+                    bench: parseFloat(formData.get('bench')),
+                    squat: parseFloat(formData.get('squat')),
+                    deadlift: parseFloat(formData.get('deadlift')),
+                    gender: parseInt(formData.get('gender')), // 0 for male, 1 for female
+                    'pull ups': parseInt(formData.get('pullups')), // Use key matching Flask expectation
+                    'push ups': parseInt(formData.get('pushups')), // Use key matching Flask expectation
+                };
+                
+                // --- Frontend Input Validation ---
+                let validationError = null;
+                requiredNumericFields.forEach(fieldId => {
+                    const value = formData.get(fieldId);
+                    if (isNaN(parseFloat(value)) || parseFloat(value) < 0) {
+                        validationError = `Please enter a valid, non-negative number for ${fieldId}.`;
+                    }
+                });
+                
+                // Check if gender radio button was selected
+                if (formData.get('gender') === null) {
+                    validationError = "Please select a gender (Male or Female).";
+                }
+
+                if (validationError) {
+                    showModal('Input Error', validationError, 'text-red-600');
+                    return; // Stop execution if validation fails
+                }
+                // --- End Validation ---
+
+                // Send data to Flask API
+                const response = await fetch(API_URL, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(data),
+                });
+
+                // Check for network errors/connection refusal first
+                if (!response.ok && response.status === 0) {
+                    throw new Error('Network error or server connection refused.');
+                }
+
+                const result = await response.json();
+
+                if (response.ok) {
+                    // Success response (HTTP 200)
+                    const predictionText = result.prediction.toUpperCase();
+                    let message = `Based on your metrics, your current classification is: ${predictionText}.`;
+                    let title = 'Strength Analysis Complete';
+                    
+                    // Use green for 'STRONG' and blue for 'NOT STRONG' or neutral result
+                    let color = (result.prediction.toLowerCase() === 'strong') ? 'text-green-600' : 'text-blue-600'; 
+                    showModal(title, message, color);
+                } else {
+                    // Error response (e.g., HTTP 400, 500)
+                    const errorMessage = result.error || 'An unexpected error occurred on the server.';
+                    showModal('Prediction Error', `There was an issue processing your request: ${errorMessage}`, 'text-red-600');
+                }
+
+            } catch (error) {
+                // Network or fetch error (server not running or connection refused)
+                console.error('Network or system error:', error);
+                showModal('Connection Error', 'Could not connect to the Flask server. Please ensure **app.py** is running and accessible at **http://127.0.0.1:5000**.', 'text-red-600');
+            } finally {
+                // Re-enable button and hide spinner
+                submitBtn.disabled = false;
+                buttonText.textContent = 'GO!';
+                spinner.classList.add('hidden');
+            }
+        });
+
+        // Attach event listener to the close modal button
+        closeModalBtn.addEventListener('click', hideModal);
+    </script>
+
+</body>
+</html>
